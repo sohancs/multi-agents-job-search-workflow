@@ -1,7 +1,8 @@
 import sqlite3
+import os
 
 def init_db_fn():
-    conn = sqlite3.connect('db/jobs.db')
+    conn = sqlite3.connect(get_actual_db_path())
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS filtered_jobs (
@@ -25,3 +26,12 @@ def init_db_fn():
     
     conn.commit()
     conn.close()
+
+
+def get_actual_db_path() -> str: 
+    "Get actual path of db file"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    print("Base directory:", base_dir)
+    db_path = os.path.join(base_dir, "jobs.db")
+    
+    return db_path

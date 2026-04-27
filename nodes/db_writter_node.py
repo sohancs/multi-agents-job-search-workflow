@@ -2,6 +2,7 @@ from state import AgentState
 import sqlite3
 from datetime import datetime 
 import os
+from db.init_db import get_actual_db_path
 
 def db_writter_fn(state : AgentState) -> dict:
     """Write the relevant job details to database."""
@@ -66,11 +67,3 @@ def update_job_status(state : AgentState) :
     conn.close()
 
     return {}
-
-def get_actual_db_path() -> str: 
-    "Get actual path of db file"
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    print("Base directory:", base_dir)
-    db_path = os.path.join(base_dir, "jobs.db")
-    
-    return db_path

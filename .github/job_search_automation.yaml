@@ -46,7 +46,6 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             
-            # Force add the database even if it was ignored before
             git add db/jobs.db 
             
             # Only commit if the file actually changed
