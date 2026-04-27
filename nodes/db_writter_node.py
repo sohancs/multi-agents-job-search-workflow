@@ -1,11 +1,12 @@
 from state import AgentState
 import sqlite3
 from datetime import datetime 
+import os
 
 def db_writter_fn(state : AgentState) -> dict:
     """Write the relevant job details to database."""
     reranked_jobs =state.get("reranked_jobs", [])
-    conn = sqlite3.connect('db/jobs.db')
+    conn = sqlite3.connect(get_actual_db_path())
     cursor = conn.cursor()
 
     if not reranked_jobs:
@@ -50,7 +51,7 @@ def db_writter_fn(state : AgentState) -> dict:
 
 def update_job_status(state : AgentState) :
     "Update job status for drafted emails"
-    conn = sqlite3.connect('db/jobs.db')
+    conn = sqlite3.connect(get_actual_db_path())
     cursor = conn.cursor()
 
     mail_drafts = state.get("mail_drafts", [])
@@ -65,3 +66,11 @@ def update_job_status(state : AgentState) :
     conn.close()
 
     return {}
+
+def get_actual_db_path() -> str: 
+    "Get actual path of db file"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    print("Base directory:", base_dir)
+    db_path = os.path.join(base_dir, "jobs.db")
+    
+    return db_path
