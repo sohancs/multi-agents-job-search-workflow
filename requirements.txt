@@ -1,0 +1,15 @@
+langchain>=0.2.0
+langgraph>=0.2.0
+langchain-community>=0.2.0
+langchain-openai>=0.2.0
+openai>=1.0.0
+pydantic>=2.7.0
+python-dotenv>=1.0.0
+apify-client>=1.7.0
+pypdf>=4.2.0
+
+
+#Gmail API dependencies
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+google-api-python-client>=2.130.0
