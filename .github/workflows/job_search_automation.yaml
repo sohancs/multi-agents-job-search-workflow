@@ -1,20 +1,20 @@
-# 1. The name of your automation
-name: Daily Job Agent
+name: Job Agent runs on alternate days
 
-# 2. When should this run?
 on:
   schedule:
-    - cron: '0 8 */2 * *'  # 8:00 AM on alternate days
+    - cron: '0 4 */2 * *'  # 8:00 AM on alternate days in GCC time(Given time in UTC)
       timezone: "Asia/Dubai"
   workflow_dispatch:      # This adds a "Run" button so you can test it manually
 
-# 3. What should the computer do?
+permissions:
+  contents: write
+
 jobs:
-  run-my-script:
-    runs-on: ubuntu-latest  # Uses a fresh Linux machine
+  run:
+    runs-on: ubuntu-latest 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # This "pulls" your code into the Linux machine
+        uses: actions/checkout@v4  
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -43,11 +43,11 @@ jobs:
 
     - name: Commit and Push DB changes
         run: |
-            git config --global user.name "github-actions[bot]"
+          git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             
             git add db/jobs.db 
             
             # Only commit if the file actually changed
-            git commit -m "Update job database: $(date)" || echo "No new jobs found today"
+            git commit -m "Update job database: $(date)" || (echo "No new jobs found today" && exit 0)
             git push
