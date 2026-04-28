@@ -18,10 +18,10 @@ def linkedin_job_scrapper() -> list:
             "count": int(SEACH_JOB_COUNT)
         }
         
-        #run = apify_client.actor("curious_coder/linkedin-jobs-scraper").call(run_input=search_query)
-        #results = apify_client.dataset(run["defaultDatasetId"]).list_items().items
+        run = apify_client.actor("curious_coder/linkedin-jobs-scraper").call(run_input=search_query)
+        results = apify_client.dataset(run["defaultDatasetId"]).list_items().items
 
-        results = mock_linkedin_job_scrapper() #remove this after testing
+        #results = mock_linkedin_job_scrapper() #remove this after testing
         print(f"Number of scrapped job listings from LinkedIn : {len(results)} \n")
         if not results:
             return [{"_error": "No results found", "_source": "LinkedIn"}]
