@@ -3,7 +3,6 @@ name: Job Agent runs on alternate days
 on:
   schedule:
     - cron: '0 4 */2 * *'  # 8:00 AM on alternate days in GCC time(Given time in UTC)
-      timezone: "Asia/Dubai"
   workflow_dispatch:      # This adds a "Run" button so you can test it manually
 
 permissions:
@@ -11,10 +10,10 @@ permissions:
 
 jobs:
   run:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -27,7 +26,7 @@ jobs:
       - name: Get Gmail credentials from secrets & save to newly created files
         run: |
           mkdir -p secrets
-          echo "${{ secrets.GMAIL_CREDENTIALS_B64 }}" | base64 -d > secrets/credentials.json    
+          echo "${{ secrets.GMAIL_CREDENTIALS_B64 }}" | base64 -d > secrets/credentials.json
           echo "${{ secrets.GMAIL_TOKEN_B64 }}" | base64 -d > secrets/token.json
 
       - name: Run the agent
@@ -41,13 +40,13 @@ jobs:
           CANDIDATE_MOB_NO: ${{ secrets.CANDIDATE_MOB_NO }}
         run: python main.py
 
-    - name: Commit and Push DB changes
+      - name: Commit and Push DB changes
         run: |
           git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            
-            git add db/jobs.db 
-            
-            # Only commit if the file actually changed
-            git commit -m "Update job database: $(date)" || (echo "No new jobs found today" && exit 0)
-            git push
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add db/jobs.db
+
+          # Only commit if the file actually changed
+          git commit -m "Update job database: $(date)" || (echo "No new jobs found today" && exit 0)
+          git push
