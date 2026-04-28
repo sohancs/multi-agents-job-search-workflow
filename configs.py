@@ -7,10 +7,14 @@ APIFY_API_TOKEN = os.getenv("APIFY_API_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
-JOB_SEARCH_QUERIES = os.getenv("JOB_SEARCH_QUERIES", ["Senior Backend Developer", "AI Engineer"])
+RAW_JOB_SEARCH_QUERIES = os.getenv("JOB_SEARCH_QUERIES", "Senior Backend Developer, AI Engineer")
+JOB_SEARCH_QUERIES = [query.strip() for query in RAW_JOB_SEARCH_QUERIES.split(",")]
 
-LOCATION = os.getenv("LOCATION", "Dubai")
+RAW_LOCATION = os.getenv("LOCATION", "Dubai, United Arab Emirates")
+LOCATION = [query.strip() for query in RAW_LOCATION.split(",")]
+
 SEACH_JOB_COUNT = os.getenv("SEACH_JOB_COUNT", 10)
+JOB_POSTED_FILTER_IN_SEC = os.getenv("JOB_POSTED_FILTER_IN_SEC", "r86400") #24 hrs filter
 
 CANDIDATE_NAME = os.getenv("CANDIDATE_NAME")
 CANDIDATE_EMAIL = os.getenv("CANDIDATE_EMAIL")

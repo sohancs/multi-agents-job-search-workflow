@@ -16,6 +16,7 @@ def resume_loader() -> dict:
         docs = loader.load()
         content = "\n".join([doc.page_content for doc in docs])
         resumes[file] = " ".join(content.split())
+        print(f"Resume - {file} loaded successfully.")
 
-
+    print(f"no of resumes found - {len(resumes)}")
     return resumes

@@ -3,7 +3,7 @@
 from langchain.tools import tool
 from apify_client import ApifyClient
 from openai import base_url
-from configs import APIFY_API_TOKEN, JOB_SEARCH_QUERIES, LOCATION, SEACH_JOB_COUNT
+from configs import APIFY_API_TOKEN, JOB_SEARCH_QUERIES, LOCATION, SEACH_JOB_COUNT, JOB_POSTED_FILTER_IN_SEC
 from urllib.parse import urlencode
 
 
@@ -42,9 +42,12 @@ def get_linkedin_dynamic_url() -> list[str] :
 	for query in JOB_SEARCH_QUERIES:
 		params = {
 			"keywords" : query,
-			"location" : " ".join(LOCATION)
+			"location" : " ".join(LOCATION),
+            "f_TPR" : JOB_POSTED_FILTER_IN_SEC
 		}
 		linkedin_search_urls.append(base_url + urlencode(params))
+            
+	print(f"linkedIn final urls passing to apify - {', '.join(linkedin_search_urls)}")
 	
 	return linkedin_search_urls
 
